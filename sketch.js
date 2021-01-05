@@ -20,7 +20,7 @@ var bg = "bg.png";
 
 function preload()
 {
-  getBackgroundImage();
+  getBackgroundImg();
 }
 
 function setup() {
@@ -79,12 +79,11 @@ function setup() {
 
 
 function draw() {
-  if(backgroundImg)
-  rectMode(CENTER);
-  background("backgroundImg");
+   if(backgroundImg)
+   background(backgroundImg);
   
- 
-  
+      Engine.update(engine);
+      rectMode(CENTER);
   stand1.display();
   box1.display();
   box2.display();
@@ -146,9 +145,11 @@ function draw() {
 
 
 
-
-  text("SCORE: " + score,75,75);
-  drawSprites();
+textSize(20);
+fill("white");
+text("SCORE: " + score,75,75);
+  
+drawSprites();
  
 }
 
@@ -166,25 +167,26 @@ function mouseReleased(){
     function keyPressed(){
       if(keyCode === 32){
           slingshot.attach(polygon.body);
-      }
+          Matter.Body.setPosition(polygon.body, {x: 300 , y: 550});
+        }
   }
 
-  async function getBackgroundImage() {
+  async function getBackgroundImg(){
     var response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
     var responseJSON = await response.json();
-    console.log(responseJSON);
+
     var datetime = responseJSON.datetime;
     var hour = datetime.slice(11,13);
-    if(hour>=06 && hour<=19){
-    bg = "bg.png"
     
-    } else 
-    {
-    bg = "bg2.png"
-    
+    if(hour>=06 && hour<=18){
+        bg = "bg.png";
     }
+    else{
+        bg = "bg2.jpg";
+    }
+
     backgroundImg = loadImage(bg);
     console.log(backgroundImg);
-    }
+}
     
 
